@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Header } from "../components/Header";
 import { Login } from "../views/Login";
@@ -12,9 +13,9 @@ import { TalentAdded } from "../components/Talent//TalentAdded";
 class App extends React.Component {
     render() {
         return (
-            <Router>
-                <div>
-                    <div className="container">
+            <MuiThemeProvider>
+                <Router>
+                    <div>
                         <Route exact path="/" component={Login} />
                         <Route path="/app" component={Header} />
                         <Route exact path="/app/dashboard" component={Home} />
@@ -22,8 +23,8 @@ class App extends React.Component {
                         <Route exact path="/app/talent-add" component={TalentAdd} />
                         <Route exact path="/app/talent-added" component={TalentAdded} />
                     </div>
-                </div>
-            </Router>
+                </Router>
+            </MuiThemeProvider>
         );
     }
 }

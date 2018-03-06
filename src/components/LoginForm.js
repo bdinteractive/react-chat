@@ -1,12 +1,20 @@
 import React from "react";
 import superagent from "superagent";
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
 export class LoginForm extends React.Component {
     constructor() {
         super();
         this.state = {
             username: "",
-            password: ""        }
+            password: "",
+            errorMessage: "",
+            emailErrorMessage: "",
+            passwordErrorMessage: ""
+
+        }
     }
     handleUsernameChanged(event) {
         this.setState({username: event.target.value});
@@ -19,13 +27,42 @@ export class LoginForm extends React.Component {
         superagent
         .post('http://www.api.getchatwith.com/api/AuthenticateAppAdmin')
         .send({EmailAddress: this.state.username, Password: this.state.password})
-        .end((Error, Response) => {
-            console.log('error', Error);
-            if(Error) { 
-                this.setState({errorMessage: "Authentication Failed"});
+        .end((err, res) => {
+            // console.log('err ', err);
+            // console.log('res ', res);
+            // console.log('res.body.Error ', res.body.Error);
+
+            // console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
+            // console.log('res.body.Response.Authenticated ', res.body.Response.Authenticated);
+            this.setState({
+                errorMessage: "",
+                emailErrorMessage: "",
+                passwordErrorMessage: ""
+            })
+
+            if(!res.body.Response.ValidAppAdmin) {
+                console.log('emailErrorMessage');
+                console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
+                this.setState({
+                    emailErrorMessage: "Wrong Email"
+                })
+                console.log('emailErrorMessage');
+            }
+            if(!res.body.Response.ValidAppPassword) {
+                this.setState({
+                    passwordErrorMessage: "Wrong Password"
+                })
+            }
+            
+            if(res.body.Error) {
+                console.log('Error!!! ', res.body.Error);
+                this.setState({errorMessage: res.body.Response});
                 return;
             }
-            localStorage.setItem('token', Response.body.Response.Token);
+
+
+            console.log('Res', res.body.Response);
+            localStorage.setItem('token', res.body.Response.Token);
             this.props.onSuccessfulLogin();
         });
     }
@@ -33,29 +70,37 @@ export class LoginForm extends React.Component {
         return(
             <div>
                 <form onSubmit={this.submitForm.bind(this)}>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">Email</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            id="InputEmail"
-                            placeholder="Email"
-                            value={this.state.username}
-                            onChange={this.handleUsernameChanged.bind(this)}
+
+                    <Card>
+                        <CardHeader
+                        title="Admin Login"
                         />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="exampleInputPassword1">Password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="InputPassword"
-                            placeholder="Password"
-                            value={this.state.password}
-                            onChange={this.handlePasswordChanged.bind(this)}
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                        <CardText>
+                            <TextField
+                                hintText="Email Address"
+                                floatingLabelText="Email Address"
+                                errorText={this.state.emailErrorMessage}
+                                value={this.state.username}
+                                onChange={this.handleUsernameChanged.bind(this)}
+                            />
+                            <TextField
+                                hintText="Password"
+                                floatingLabelText="Password"
+                                type="password"
+                                errorText={this.state.passwordErrorMessage}
+                                value={this.state.password}
+                                onChange={this.handlePasswordChanged.bind(this)}
+                            />
+                        </CardText>
+                        <CardActions>
+                            <RaisedButton
+                                label="Submit"
+                                primary={true}
+                                onClick={this.submitForm.bind(this)}
+                            />
+                        </CardActions>
+                    </Card>
+
                 </form>
             </div>
         );
