@@ -1,59 +1,88 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import Bootstrap from "bootstrap";
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
+import MenuIcon from 'material-ui-icons/Menu';
+import Menu, { MenuItem } from 'material-ui/Menu';
+
+
 
 export class Header extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            anchorEl: null
+        }
+    }
     handleLogout(event) {
         event.preventDefault();
         localStorage.removeItem('token');
         this.forceUpdate();
     }
+    handleClick = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+    
+    handleClose = () => {
+        this.setState({ anchorEl: null });
+    };
     isAuthenticated() {
         const token = localStorage.getItem('token');
         return token && token.length > 10;
     }
     render() {
         const isAlreadyAuthentacated = this.isAuthenticated();
+        const { anchorEl } = this.state;
         return(
-            <div className="row">
+            <div>
                 {!isAlreadyAuthentacated ? <Redirect to={{pathname: '/'}}/> : (
-                    <div className="col-12">
-                        <nav className="navbar navbar-default">
-                            <div className="container">
-                                <div className="navbar-header">
-                                    <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                        <span className="sr-only">Toggle navigation</span>
-                                        <span className="icon-bar"></span>
-                                        <span className="icon-bar"></span>
-                                        <span className="icon-bar"></span>
-                                    </button>
-                                    <Link to="/" className="navbar-brand">ChatWith Management Console</Link>
-                                </div>
-                                <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                    <ul className="nav navbar-nav navbar-right">
-                                        <li><Link to="/">Dashboard</Link></li>
-                                        <li className="dropdown">
-                                            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                                <span className="glyphicon glyphicon-th" aria-hidden="true"></span>
-                                            </a>
-                                            <ul className="dropdown-menu">
-                                                <li><Link to="/app/orders">Orders</Link></li>
-                                                <li><Link to="/app/payouts">Payouts</Link></li>
-                                                <li><Link to="/app/reported-content">Reported Content</Link></li>
-                                                <li><Link to="/app/fans">Fans (Users)</Link></li>
-                                                <li><Link to="/app/talent">Talent</Link></li>
-                                                <li><Link to="/app/one-on-one">One-On-One ChatWith</Link></li>
-                                                <li><Link to="/app/promo-code">Promo Code</Link></li>
-                                                <li><Link to="/app/ads">Ads</Link></li>
-                                                <li><Link to="/app/featured-content">Featured Content</Link></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#" onClick={this.handleLogout.bind(this)}><span className="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
+                    <div>
+                        <AppBar position="static">
+                            <Toolbar>
+                                <Button
+                                    aria-owns={anchorEl ? 'simple-menu' : null}
+                                    aria-haspopup="true"
+                                    onClick={this.handleClick}
+                                    color="inherit"
+                                >
+                                    <MenuIcon />
+                                </Button>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={this.handleClose}
+                                >
+                                    <MenuItem component={Link} to="/app/orders">Orders</MenuItem>
+                                    <MenuItem component={Link} to="/app/payouts">Payouts</MenuItem>
+                                    <MenuItem component={Link} to="/app/reported-content">Reported Content</MenuItem>
+                                    <MenuItem component={Link} to="/app/fans">Fans (Users)</MenuItem>
+                                    <MenuItem onClick={this.handleClose} component={Link} to="/app/talent">Talent</MenuItem>
+                                    <MenuItem component={Link} to="/app/one-on-one">One-On-One ChatWith</MenuItem>
+                                    <MenuItem component={Link} to="/app/promo Code">Promo Code</MenuItem>
+                                    <MenuItem component={Link} to="/app/ads">Ads</MenuItem>
+                                    <MenuItem component={Link} to="/app/featured-content">Featured Content</MenuItem>
+                                </Menu>
+                                <Typography
+                                    variant="title"
+                                    color="inherit"
+                                    style={{flex: 1}}
+                                >
+                                    ChatWith Management Console
+                                </Typography>
+                                <Button
+                                    color="inherit"
+                                    component={Link}
+                                    to="/app/dashboard"
+                                >
+                                    Dashboard
+                                </Button>
+                                <Button color="inherit" onClick={this.handleLogout.bind(this)}>Log out</Button>
+                            </Toolbar>
+                        </AppBar>
                     </div>
                 )}
             </div>

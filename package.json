@@ -32,10 +32,13 @@
     "webpack-dev-server": "^2.11.1"
   },
   "dependencies": {
-    "material-ui": "^0.20.0",
+    "material-ui": "^1.0.0-beta.36",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
+    "react-popper": "^0.8.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "startbootstrap-sb-admin": "^4.0.0",

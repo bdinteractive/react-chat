@@ -1,8 +1,12 @@
 import React from "react";
 import superagent from "superagent";
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Typography from 'material-ui/Typography';
+import Grid from 'material-ui/Grid';
 
 export class LoginForm extends React.Component {
     constructor() {
@@ -13,7 +17,6 @@ export class LoginForm extends React.Component {
             errorMessage: "",
             emailErrorMessage: "",
             passwordErrorMessage: ""
-
         }
     }
     handleUsernameChanged(event) {
@@ -41,12 +44,12 @@ export class LoginForm extends React.Component {
             })
 
             if(!res.body.Response.ValidAppAdmin) {
-                console.log('emailErrorMessage');
-                console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
+                // console.log('emailErrorMessage');
+                //console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
                 this.setState({
                     emailErrorMessage: "Wrong Email"
                 })
-                console.log('emailErrorMessage');
+                // console.log('emailErrorMessage');
             }
             if(!res.body.Response.ValidAppPassword) {
                 this.setState({
@@ -55,53 +58,55 @@ export class LoginForm extends React.Component {
             }
             
             if(res.body.Error) {
-                console.log('Error!!! ', res.body.Error);
+                // console.log('Error!!! ', res.body.Error);
                 this.setState({errorMessage: res.body.Response});
                 return;
             }
-
-
-            console.log('Res', res.body.Response);
+            // console.log('Res', res.body.Response);
             localStorage.setItem('token', res.body.Response.Token);
             this.props.onSuccessfulLogin();
+        });
+    }
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value,
         });
     }
     render() {
         return(
             <div>
-                <form onSubmit={this.submitForm.bind(this)}>
+                <Grid
+                    item
+                    xs={12}
+                >
+                    <Card style={{marginTop: 60}}>
+                        <CardContent>
+                            <Typography variant="headline" component="h2">
+                                Admin Login
+                            </Typography>
+                            <FormControl error={this.state.emailErrorMessage ? true : false }>
+                                <InputLabel>Email Address</InputLabel>
+                                <Input value={this.state.username} onChange={this.handleUsernameChanged.bind(this)} />
+                                <FormHelperText id="name-error-text">{this.state.emailErrorMessage}</FormHelperText>
+                            </FormControl>
 
-                    <Card>
-                        <CardHeader
-                        title="Admin Login"
-                        />
-                        <CardText>
-                            <TextField
-                                hintText="Email Address"
-                                floatingLabelText="Email Address"
-                                errorText={this.state.emailErrorMessage}
-                                value={this.state.username}
-                                onChange={this.handleUsernameChanged.bind(this)}
-                            />
-                            <TextField
-                                hintText="Password"
-                                floatingLabelText="Password"
-                                type="password"
-                                errorText={this.state.passwordErrorMessage}
-                                value={this.state.password}
-                                onChange={this.handlePasswordChanged.bind(this)}
-                            />
-                        </CardText>
+                            <FormControl error={this.state.passwordErrorMessage ? true : false }>
+                                <InputLabel>Password</InputLabel>
+                                <Input type="password" value={this.state.password} onChange={this.handlePasswordChanged.bind(this)} />
+                                <FormHelperText id="name-error-text">{this.state.passwordErrorMessage}</FormHelperText>
+                            </FormControl>
+                        </CardContent>
                         <CardActions>
-                            <RaisedButton
-                                label="Submit"
-                                primary={true}
+                            <Button
+                                variant="raised"
+                                color="primary"
                                 onClick={this.submitForm.bind(this)}
-                            />
+                            >
+                                Submit
+                            </Button>
                         </CardActions>
                     </Card>
-
-                </form>
+                </Grid>
             </div>
         );
     };
