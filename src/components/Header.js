@@ -7,14 +7,16 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Menu, { MenuItem } from 'material-ui/Menu';
-
-
+import Drawer from 'material-ui/Drawer';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import { Lock } from 'material-ui-icons';
 
 export class Header extends React.Component {
     constructor() {
         super();
         this.state = {
-            anchorEl: null
+            anchorEl: null,
+            left: false
         }
     }
     handleLogout(event) {
@@ -33,6 +35,11 @@ export class Header extends React.Component {
         const token = localStorage.getItem('token');
         return token && token.length > 10;
     }
+    toggleDrawer = (side, open) => () => {
+        this.setState({
+          [side]: open,
+        });
+    }
     render() {
         const isAlreadyAuthentacated = this.isAuthenticated();
         const { anchorEl } = this.state;
@@ -40,9 +47,18 @@ export class Header extends React.Component {
             <div>
                 {!isAlreadyAuthentacated ? <Redirect to={{pathname: '/'}}/> : (
                     <div>
-                        <AppBar position="static">
+                        <AppBar
+                            // position="absolute"
+                            position="static"
+                        >
                             <Toolbar>
                                 <Button
+                                    onClick={this.toggleDrawer('left', true)}
+                                    color="inherit"
+                                >
+                                    <MenuIcon/>
+                                </Button>
+                                {/* <Button
                                     aria-owns={anchorEl ? 'simple-menu' : null}
                                     aria-haspopup="true"
                                     onClick={this.handleClick}
@@ -65,7 +81,7 @@ export class Header extends React.Component {
                                     <MenuItem component={Link} to="/app/promo Code">Promo Code</MenuItem>
                                     <MenuItem component={Link} to="/app/ads">Ads</MenuItem>
                                     <MenuItem component={Link} to="/app/featured-content">Featured Content</MenuItem>
-                                </Menu>
+                                </Menu> */}
                                 <Typography
                                     variant="title"
                                     color="inherit"
@@ -80,9 +96,106 @@ export class Header extends React.Component {
                                 >
                                     Dashboard
                                 </Button>
-                                <Button color="inherit" onClick={this.handleLogout.bind(this)}>Log out</Button>
+                                <Button
+                                    color="inherit"
+                                    onClick={this.handleLogout.bind(this)}
+                                >
+                                    Log out
+                                </Button>
                             </Toolbar>
                         </AppBar>
+                        <Drawer
+                            open={this.state.left}
+                            // variant="permanent"
+                            onClose={this.toggleDrawer('left', false)}
+                        >
+                            <List
+                                component="nav"
+                                style={{width: 240}}
+                            >
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/orders"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Orders"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/payouts"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Payouts"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/reported-content"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Reported Content"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/fans"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Fans (Users)"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/talent"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Talent"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/one-on-one"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="One-On-One ChatWith"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/promo-code"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Promo Code"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/ads"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Ads"/>
+                                </ListItem>
+                                <ListItem
+                                    button
+                                    onClick={this.handleClose}
+                                    component={Link}
+                                    to="/app/feature-content"
+                                    onClick={this.toggleDrawer('left', false)}
+                                >
+                                    <ListItemText primary="Feature Content"/>
+                                </ListItem>
+                            </List>
+                        </Drawer>
                     </div>
                 )}
             </div>

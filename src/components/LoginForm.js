@@ -84,13 +84,13 @@ export class LoginForm extends React.Component {
                             <Typography variant="headline" component="h2">
                                 Admin Login
                             </Typography>
-                            <FormControl error={this.state.emailErrorMessage ? true : false }>
+                            <FormControl fullWidth error={this.state.emailErrorMessage ? true : false }>
                                 <InputLabel>Email Address</InputLabel>
                                 <Input value={this.state.username} onChange={this.handleUsernameChanged.bind(this)} />
                                 <FormHelperText id="name-error-text">{this.state.emailErrorMessage}</FormHelperText>
                             </FormControl>
 
-                            <FormControl error={this.state.passwordErrorMessage ? true : false }>
+                            <FormControl fullWidth error={this.state.passwordErrorMessage ? true : false }>
                                 <InputLabel>Password</InputLabel>
                                 <Input type="password" value={this.state.password} onChange={this.handlePasswordChanged.bind(this)} />
                                 <FormHelperText id="name-error-text">{this.state.passwordErrorMessage}</FormHelperText>
@@ -100,6 +100,7 @@ export class LoginForm extends React.Component {
                             <Button
                                 variant="raised"
                                 color="primary"
+                                style={{marginBottom: 20}}
                                 onClick={this.submitForm.bind(this)}
                             >
                                 Submit

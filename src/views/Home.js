@@ -1,6 +1,9 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import superagent from "superagent";
+import Paper from "material-ui/Paper"
+import Typography from "material-ui/Typography"
+import Grid from "material-ui/Grid"
 
 export class Home extends React.Component {
     constructor() {
@@ -16,16 +19,23 @@ export class Home extends React.Component {
     render() {
         const isAlreadyAuthentacated = this.isAuthenticated();
         return(
-            <div className="row">
+            <Grid container>
                 {!isAlreadyAuthentacated ? <Redirect to={{pathname: '/'}}/> : (
-                    <div className="col-12">
-                        <div className="panel panel-default">
-                            <div className="panel-body">Welcome {this.state.username}</div>
-                        </div>
-                        <h1>Dashboard</h1>
-                    </div>
+                    <Grid
+                        item
+                        md
+                    >
+                        <Paper style={{padding: 60}}>
+                            <Typography variant="headline" component="h4">
+                                Welcome {this.state.username}
+                            </Typography>
+                            <Typography component="h2">
+                                This is Your Dashboard.
+                            </Typography>
+                        </Paper>
+                    </Grid>
                 )}
-            </div>
+            </Grid>
         );
     }
 }

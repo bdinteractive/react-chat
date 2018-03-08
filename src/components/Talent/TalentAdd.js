@@ -1,6 +1,14 @@
 import React from "react";
 import { Link, Redirect } from 'react-router-dom';
 import superagent from "superagent";
+import TextField from "material-ui/TextField"
+import Grid from "material-ui/Grid";
+import Button from "material-ui/Button";
+import Paper from "material-ui/Paper";
+import Typography from "material-ui/Typography"
+import Radio, { RadioGroup } from 'material-ui/Radio';
+import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
+import Input, { InputLabel } from 'material-ui/Input';
 
 export class TalentAdd extends React.Component {
     constructor() {
@@ -8,8 +16,9 @@ export class TalentAdd extends React.Component {
         this.state = {
             emailAddress: "",
             password: "",
-            Name: "",
-            categoryId: "",
+            name: "",
+            gender: "",
+            categoryId: "021D71E9EE9E4C849111A438C1322DBD",
             errorMessage: ""
         }
     }
@@ -21,6 +30,9 @@ export class TalentAdd extends React.Component {
     }
     handlePasswordChanged(event) {
         this.setState({password: event.target.value});
+    }
+    handleChange = (event, value) => {
+        this.setState({ value });
     }
     submitForm(event) {
         console.log('Submit Form');
@@ -38,7 +50,7 @@ export class TalentAdd extends React.Component {
             // console.log('res ', res);
             // console.log('res.body.Error ', res.body.Error);
             if(res.body.Error) {
-                // console.log('Error!!! ', res.body.Error);
+                console.log('Error!!! ', res.body.Error);
                 this.setState({errorMessage: res.body.Response});
                 return;
             }
@@ -48,203 +60,324 @@ export class TalentAdd extends React.Component {
     }
     render() {
         return(
-            <div className="row">
-                <div className="col-12">
-                    <h1>Add Talent</h1>
-                </div>
+            <Grid container>
+                <Grid item md>
+                    <Paper style={{padding: 60}}>
+                    <Typography style={{marginBottom: 20}} variant="headline" component="h4">
+                        Add Talent
+                    </Typography>
 
-                <div className="col-12">
-                    <div className="panel panel-default">
-                        <div className="panel-body text-right">
-                            <div className="btn-group" role="group">
-                                <Link className="btn btn-danger btn-sm" to="/app/talent">Cancel</Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    {/* <Button
+                        color="primary"
+                        variant="raised"
+                        size="small"
+                        component={Link}
+                        to="/app/talent"
+                        style={{marginTop: 40, marginBottom: 20}}
+                    >
+                        Cancel
+                    </Button> */}
 
-                {this.state.errorMessage &&
-                    <div className="alert alert-danger">
-                        <strong>Error:</strong> {this.state.errorMessage}
-                    </div>
-                }
+                    {this.state.errorMessage &&
+                        <Typography color="error">
+                            <strong>Error:</strong> {this.state.errorMessage}
+                        </Typography>
+                    }
 
-                <div className="col-md-offset-3 col-md-7">
                     <form onSubmit={this.submitForm.bind(this)}>
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Talent First Name</label>
-                            <div className="col-sm-12">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="talent_first_name"
-                                    placeholder="Enter First Name"
-                                    value={this.state.name}
-                                    onChange={this.handleNameChanged.bind(this)}
-                                />
-                            </div>
-                        </div>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Talent Last Name</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="talent_last_name" placeholder="Enter Last Name"/>
-                            </div>
-                        </div>
+                        {/* <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Talent First Name"
+                            placeholder="Enter First Name"
+                            value={this.state.name}
+                            onChange={this.handleNameChanged.bind(this)}
+                            fullWidth
+                            margin="normal"
+                        />
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Talent Email Address</label>
-                            <div className="col-sm-12">
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="talent_email"
-                                    placeholder="Enter Email"
-                                    value={this.state.emailAddress}
-                                    onChange={this.handleEmailAddressChanged.bind(this)}
-                                />
-                            </div>
-                        </div>
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Talent Last Name"
+                            placeholder="Enter Last Name"
+                            fullWidth
+                            margin="normal"
+                        />
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Talent Password</label>
-                            <div className="col-sm-12">
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    id="talent_password"
-                                    placeholder="Enter Password"
-                                    value={this.state.password}
-                                    onChange={this.handlePasswordChanged.bind(this)}
-                                />
-                            </div>
-                        </div>
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Talent Email Address"
+                            placeholder="Enter Email"
+                            value={this.state.emailAddress}
+                            onChange={this.handleEmailAddressChanged.bind(this)}
+                            fullWidth
+                            margin="normal"
+                        /> */}
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Talent Birthdate</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="talent_birthdate" placeholder="Enter Birthdate"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth error={this.state.errorMessage ? true : false }>
+                            <InputLabel>Talent First Name</InputLabel>
+                            <Input value={this.state.name} onChange={this.handleNameChanged.bind(this)} />
+                            <FormHelperText>{this.state.errorMessage}</FormHelperText>
+                        </FormControl>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Talent Gender</label>
-                            <div className="col-sm-12">
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1"/>
-                                    <label className="form-check-label" htmlFor="gridRadios1">&nbsp;&nbsp;Female</label>
-                                </div>
-                                <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2"/>
-                                    <label className="form-check-label" htmlFor="gridRadios2">&nbsp;&nbsp;Male</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Talent Known For (Highlights 2 roles for talent)</label>
-                            <div className="col-sm-12">
-                            <textarea className="form-control" id="talent_highlights" rows="3"></textarea>
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Manager First Name</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="manager_first_name" placeholder="Enter First Name"/>
-                            </div>
-                        </div>
-
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Manager Last Name</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="manager_last_name" placeholder="Enter Last Name"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth>
+                            <InputLabel>Talent Last Name</InputLabel>
+                            <Input />
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
                         
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Manager Email</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="email" id="manager_email" placeholder="Enter Email Address"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth error={this.state.errorMessage ? true : false }>
+                            <InputLabel>Talent Email Address</InputLabel>
+                            <Input value={this.state.emailAddress} onChange={this.handleEmailAddressChanged.bind(this)} />
+                            <FormHelperText>{this.state.errorMessage}</FormHelperText>
+                        </FormControl>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Manager Phone</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="manager_phone" placeholder="Enter Phone Number"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth error={this.state.errorMessage ? true : false }>
+                            <InputLabel>Talent Password</InputLabel>
+                            <Input type="password" value={this.state.password} onChange={this.handlePasswordChanged.bind(this)} />
+                            <FormHelperText>{this.state.errorMessage}</FormHelperText>
+                        </FormControl>
 
-                        <h3>For Checks</h3>
+                        <FormControl fullWidth>
+                            <InputLabel>Talent Birthdate</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Mailing Name</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="mail_name" placeholder="Enter Mailing Name"/>
-                            </div>
-                        </div>
+                        {/* <TextField
+                            InputLabelProps={{shrink: true}}
+                            type="password"
+                            label="Talent Password"
+                            placeholder="Enter Password"
+                            value={this.state.password}
+                            onChange={this.handlePasswordChanged.bind(this)}
+                            fullWidth
+                            margin="normal"
+                        />
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Address Line 1</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="mail_address_line_1" placeholder="Enter Address"/>
-                            </div>
-                        </div>
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Talent Birthdate"
+                            placeholder="Enter Birthdate"
+                            fullWidth
+                            margin="normal"
+                        /> */}
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Address Line 2</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="mail_address_line_2" placeholder="Enter Address"/>
-                            </div>
-                        </div>
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend">Gender</FormLabel>
+                            <RadioGroup
+                                name="gender2"
+                                value={this.state.gender}
+                                onChange={this.handleChange}
+                            >
+                                <FormControlLabel value="male" control={<Radio color="primary" />} label="Male" />
+                                <FormControlLabel value="female" control={<Radio color="primary" />} label="Female" />
+                            </RadioGroup>
+                        </FormControl>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">City</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="mail_city" placeholder="Enter City"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth>
+                            <InputLabel>Talent Known For (Highlights 2 roles for talent)</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">State</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="mail_state" placeholder="Enter State"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth>
+                            <InputLabel>Managers First Name</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Zip Code</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="mail_zip_code" placeholder="Enter Zip Code"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth>
+                            <InputLabel>Managers Last Name</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
 
-                        <div className="form-group row">
-                            <label className="col-sm-12 col-form-label">Country</label>
-                            <div className="col-sm-12">
-                                <input className="form-control" type="text" id="mail_country" placeholder="Enter Country"/>
-                            </div>
-                        </div>
+                        <FormControl fullWidth>
+                            <InputLabel>Managers Email Address</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel>Managers Phone Number</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        {/* <TextField
+                            InputLabelProps={{shrink: true}}
+                            rows="3"
+                            fullWidth
+                            label="Talent Known For (Highlights 2 roles for talent)"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Managers First Name"
+                            placeholder="Enter First Name"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Managers Last Name"
+                            placeholder="Enter Last Name"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Managers Email Address"
+                            placeholder="Enter Email Address"
+                            fullWidth
+                            margin="normal"
+                        />
+                        
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Managers Phone"
+                            placeholder="Enter Phone Bumber"
+                            fullWidth
+                            margin="normal"
+                        /> */}
+
+                        <Typography variant="headline" component="h4" style={{marginTop: 40}}>
+                            For Checks
+                        </Typography>
+
+                        <FormControl fullWidth>
+                            <InputLabel>Mailing Name</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel>Address Line 1</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel>Address Line 2</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel>City</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel>State</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel>Zip Code</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel>Country</InputLabel>
+                            <Input/>
+                            <FormHelperText></FormHelperText>
+                        </FormControl>
+
+                        {/* <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Mailing Name"
+                            placeholder="Enter Mailing Name"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Address Line 1"
+                            placeholder="Enter Address"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Address Line 2"
+                            placeholder="Enter Address"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="City"
+                            placeholder="Enter City"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="State"
+                            placeholder="Enter State"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Zip Code"
+                            placeholder="Enter Zip Code"
+                            fullWidth
+                            margin="normal"
+                        />
+
+                        <TextField
+                            InputLabelProps={{shrink: true}}
+                            label="Country"
+                            placeholder="Enter Country"
+                            fullWidth
+                            margin="normal"
+                        /> */}
 
                         {this.state.errorMessage &&
-                            <div className="alert alert-danger">
+                            <Typography color="error">
                                 <strong>Error:</strong> {this.state.errorMessage}
-                            </div>
+                            </Typography>
                         }
 
-                        <div>
-                            <p className="text-center">
-                            <Link className="btn btn-danger" to="/app/talent">Cancel</Link>
-                                &nbsp;&nbsp;
-                                <button type="submit" className="btn btn-primary btn-lg">Submit</button>
-                            </p>
-                        </div>
+                        <Button
+                            color="primary"
+                            variant="raised"
+                            size="large"
+                            component={Link}
+                            to="/app/talent"
+                            style={{marginTop: 10, marginBottom: 10, marginRight: 10}}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button
+                            color="primary"
+                            variant="raised"
+                            size="large"
+                            style={{marginTop: 10, marginBottom: 10}}
+                            onClick={this.submitForm.bind(this)}
+                        >
+                            Submit
+                        </Button>
                         
                     </form>
-                </div>
-
-            </div>
+                
+                </Paper>
+                </Grid>
+            </Grid>
         );
     }
 }
