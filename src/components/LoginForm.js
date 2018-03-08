@@ -76,11 +76,11 @@ export class LoginForm extends React.Component {
         return(
             <Grid
                 item
-                xs={12}
+                xs={3}
             >
                 <Card style={{marginTop: 60}}>
                     <CardContent>
-                        <Typography variant="headline" component="h2">
+                        <Typography variant="headline" component="h2" style={{marginBottom: 20}}>
                             Admin Login
                         </Typography>
                         <FormControl fullWidth error={this.state.emailErrorMessage ? true : false }>
