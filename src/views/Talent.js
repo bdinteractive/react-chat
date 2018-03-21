@@ -15,14 +15,14 @@ import {
 export class Talent extends React.Component {
     render() {
         return(
-            <Paper style={{padding: 60, margin: 15}}>
+            <Paper style={{padding: '20px 60px 60px', margin: 15}}>
                 <h1>Talent</h1>
 
                 <RaisedButton
                     primary={true}
                     label="Add Talent"
                     style={{marginTop: 20, marginBottom: 20}}
-                    containerElement={<Link to="/app/talentAdd" />}
+                    containerElement={<Link to="/app/talent-add" />}
                 />
 
                 <Table>

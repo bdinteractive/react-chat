@@ -45,8 +45,7 @@ export class Header extends React.Component {
                 {!isAlreadyAuthentacated ? <Redirect to={{pathname: '/'}}/> : (
                     <div>
                         <AppBar
-                            // position="absolute"
-                            // position="static"
+                            style={{position: 'fixed', top: '0'}}
                             title="ChatWith Management Console"
                             onLeftIconButtonClick={this.handleToggle}
                         >

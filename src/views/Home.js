@@ -3,9 +3,6 @@ import { Redirect } from "react-router-dom";
 import superagent from "superagent";
 import Paper from "material-ui/Paper"
 
-// import Typography from "material-ui/Typography"
-// import Grid from "material-ui/Grid"
-
 export class Home extends React.Component {
     constructor() {
         super();
@@ -22,7 +19,7 @@ export class Home extends React.Component {
         return(
             <div>
                 {!isAlreadyAuthentacated ? <Redirect to={{pathname: '/'}}/> : (
-                    <Paper style={{padding: 60, margin: 15}}>
+                    <Paper style={{padding: '20px 60px 60px', margin: 15}}>
                         <h4>
                             Welcome {this.state.username}
                         </h4>
