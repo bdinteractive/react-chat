@@ -1,12 +1,8 @@
 import React from "react";
 import superagent from "superagent";
-import Card, { CardActions, CardContent } from 'material-ui/Card';
-import Button from 'material-ui/Button';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
-import Input, { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Typography from 'material-ui/Typography';
-import Grid from 'material-ui/Grid';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export class LoginForm extends React.Component {
     constructor() {
@@ -28,7 +24,7 @@ export class LoginForm extends React.Component {
     submitForm(event) {
         event.preventDefault();
         superagent
-        .post('http://www.api.getchatwith.com/api/AuthenticateAppAdmin')
+        .post('http://www.api.getchatwith.com/auth/AuthenticateAppAdmin')
         .send({EmailAddress: this.state.username, Password: this.state.password})
         .end((err, res) => {
             // console.log('err ', err);
@@ -45,7 +41,7 @@ export class LoginForm extends React.Component {
 
             if(!res.body.Response.ValidAppAdmin) {
                 // console.log('emailErrorMessage');
-                //console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
+                // console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
                 this.setState({
                     emailErrorMessage: "Wrong Email"
                 })
@@ -74,39 +70,38 @@ export class LoginForm extends React.Component {
     }
     render() {
         return(
-            <Grid
-                item
-                xs={3}
-            >
-                <Card style={{marginTop: 60}}>
-                    <CardContent>
-                        <Typography variant="headline" component="h2" style={{marginBottom: 20}}>
+            <form onSubmit={this.submitForm.bind(this)}>
+                <Card style={{margin: '60px auto 0 auto', padding: 20, maxWidth: 400}}>
+                    <CardText>
+                        <h2 style={{marginBottom: 20}}>
                             Admin Login
-                        </Typography>
-                        <FormControl fullWidth error={this.state.emailErrorMessage ? true : false }>
-                            <InputLabel>Email Address</InputLabel>
-                            <Input value={this.state.username} onChange={this.handleUsernameChanged.bind(this)} />
-                            <FormHelperText id="name-error-text">{this.state.emailErrorMessage}</FormHelperText>
-                        </FormControl>
-
-                        <FormControl fullWidth error={this.state.passwordErrorMessage ? true : false }>
-                            <InputLabel>Password</InputLabel>
-                            <Input type="password" value={this.state.password} onChange={this.handlePasswordChanged.bind(this)} />
-                            <FormHelperText id="name-error-text">{this.state.passwordErrorMessage}</FormHelperText>
-                        </FormControl>
-                    </CardContent>
+                        </h2>
+                        <TextField
+                            hintText="Email Address"
+                            errorText={this.state.emailErrorMessage}
+                            value={this.state.username}
+                            onChange={this.handleUsernameChanged.bind(this)}
+                            style={{marginBottom: 10}}
+                        />
+                        <br/>
+                        <TextField
+                            hintText="Password"
+                            type="password"
+                            errorText={this.state.passwordErrorMessage}
+                            value={this.state.password}
+                            onChange={this.handlePasswordChanged.bind(this)}
+                        />
+                    </CardText>
                     <CardActions>
-                        <Button
-                            variant="raised"
-                            color="primary"
+                        <RaisedButton
+                            primary={true}
+                            label="Submit"
                             style={{marginBottom: 20}}
                             onClick={this.submitForm.bind(this)}
-                        >
-                            Submit
-                        </Button>
+                        />
                     </CardActions>
                 </Card>
-            </Grid>
+            </form>
         );
     };
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { LoginForm } from "../components/LoginForm";
 import { Redirect } from "react-router-dom";
-import Grid from 'material-ui/Grid';
+// import Grid from 'material-ui/Grid';
 
 export class Login extends React.Component {
     isAuthenticated() {
@@ -16,15 +16,7 @@ export class Login extends React.Component {
         return(
             <div>
                 {isAlreadyAuthentacated ? <Redirect to={{pathname: '/app/dashboard'}}/> : (
-                    <Grid
-                        container
-                        // alignContent="center"
-                        // alignItems="center"
-                        justify="center"
-                        spacing={24}
-                    >
-                        <LoginForm onSuccessfulLogin={this.handleSuccessfulLogin.bind(this)} />
-                    </Grid>
+                    <LoginForm onSuccessfulLogin={this.handleSuccessfulLogin.bind(this)}/>
                 )}
             </div>
         );

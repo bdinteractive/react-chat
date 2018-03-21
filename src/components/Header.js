@@ -1,22 +1,27 @@
 import React from "react";
 import { Link, Redirect } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import MenuItem from 'material-ui/MenuItem';
+
+// import Typography from 'material-ui/Typography';
+// import Button from 'material-ui/Button';
+// import IconButton from 'material-ui/IconButton';
+// import MenuIcon from 'material-ui-icons/Menu';
+// import Menu, { MenuItem } from 'material-ui/Menu';
+// import Drawer from 'material-ui/Drawer';
+// import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+
+
 import { Lock } from 'material-ui-icons';
 
 export class Header extends React.Component {
     constructor() {
         super();
         this.state = {
-            anchorEl: null,
-            left: false
+            open: false
         }
     }
     handleLogout(event) {
@@ -24,22 +29,14 @@ export class Header extends React.Component {
         localStorage.removeItem('token');
         this.forceUpdate();
     }
-    handleClick = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-    
-    handleClose = () => {
-        this.setState({ anchorEl: null });
-    };
     isAuthenticated() {
         const token = localStorage.getItem('token');
         return token && token.length > 10;
     }
-    toggleDrawer = (side, open) => () => {
-        this.setState({
-          [side]: open,
-        });
-    }
+    handleToggle = () => this.setState({open: !this.state.open});
+
+    handleClose = () => this.setState({open: false});
+
     render() {
         const isAlreadyAuthentacated = this.isAuthenticated();
         const { anchorEl } = this.state;
@@ -49,62 +46,53 @@ export class Header extends React.Component {
                     <div>
                         <AppBar
                             // position="absolute"
-                            position="static"
+                            // position="static"
+                            title="ChatWith Management Console"
+                            onLeftIconButtonClick={this.handleToggle}
                         >
-                            <Toolbar>
-                                <Button
-                                    onClick={this.toggleDrawer('left', true)}
-                                    color="inherit"
-                                >
-                                    <MenuIcon/>
-                                </Button>
-                                {/* <Button
-                                    aria-owns={anchorEl ? 'simple-menu' : null}
-                                    aria-haspopup="true"
-                                    onClick={this.handleClick}
-                                    color="inherit"
-                                >
-                                    <MenuIcon />
-                                </Button>
-                                <Menu
-                                    id="simple-menu"
-                                    anchorEl={anchorEl}
-                                    open={Boolean(anchorEl)}
-                                    onClose={this.handleClose}
-                                >
-                                    <MenuItem component={Link} to="/app/orders">Orders</MenuItem>
-                                    <MenuItem component={Link} to="/app/payouts">Payouts</MenuItem>
-                                    <MenuItem component={Link} to="/app/reported-content">Reported Content</MenuItem>
-                                    <MenuItem component={Link} to="/app/fans">Fans (Users)</MenuItem>
-                                    <MenuItem onClick={this.handleClose} component={Link} to="/app/talent">Talent</MenuItem>
-                                    <MenuItem component={Link} to="/app/one-on-one">One-On-One ChatWith</MenuItem>
-                                    <MenuItem component={Link} to="/app/promo Code">Promo Code</MenuItem>
-                                    <MenuItem component={Link} to="/app/ads">Ads</MenuItem>
-                                    <MenuItem component={Link} to="/app/featured-content">Featured Content</MenuItem>
-                                </Menu> */}
-                                <Typography
-                                    variant="title"
-                                    color="inherit"
-                                    style={{flex: 1}}
-                                >
-                                    ChatWith Management Console
-                                </Typography>
-                                <Button
-                                    color="inherit"
-                                    component={Link}
-                                    to="/app/dashboard"
-                                >
-                                    Dashboard
-                                </Button>
-                                <Button
-                                    color="inherit"
-                                    onClick={this.handleLogout.bind(this)}
-                                >
-                                    Log out
-                                </Button>
+                            <Toolbar style={{backgroundColor: 'transparent'}}>
+                                <ToolbarGroup>
+                                    <FlatButton
+                                        label="Dashboard"
+                                        style={{margin: '5px 5px 0 0'}}
+                                        labelStyle={{color: 'white'}}
+                                        containerElement={<Link to="/app/dashboard" />}
+                                    />
+                                    <FlatButton
+                                        label="Logout"
+                                        style={{margin: '5px 0 0 5px'}}
+                                        labelStyle={{color: 'white'}}
+                                        onClick={this.handleLogout.bind(this)}
+                                    />
+                                </ToolbarGroup>
                             </Toolbar>
                         </AppBar>
+
                         <Drawer
+                            docked={false}
+                            width={240}
+                            open={this.state.open}
+                            onRequestChange={(open) => this.setState({open})}
+                        >
+                            <MenuItem onClick={this.handleClose}>Orders</MenuItem>
+                            <MenuItem onClick={this.handleClose}>Payouts</MenuItem>
+                            <MenuItem onClick={this.handleClose}>Reported Content</MenuItem>
+                            <MenuItem onClick={this.handleClose}>Fan (Users)</MenuItem>
+                            <MenuItem
+                                onClick={this.handleClose}
+                                containerElement={<Link to="/app/talent" />}
+                            >
+                                Talent
+                            </MenuItem>
+                            <MenuItem onClick={this.handleClose}>One-On-One ChatWith</MenuItem>
+                            <MenuItem onClick={this.handleClose}>Promo Code</MenuItem>
+                            <MenuItem onClick={this.handleClose}>Ads</MenuItem>
+                            <MenuItem onClick={this.handleClose}>Feature Content</MenuItem>
+                        </Drawer>
+
+
+
+                        {/* <Drawer
                             open={this.state.left}
                             // variant="permanent"
                             onClose={this.toggleDrawer('left', false)}
@@ -195,7 +183,7 @@ export class Header extends React.Component {
                                     <ListItemText primary="Feature Content"/>
                                 </ListItem>
                             </List>
-                        </Drawer>
+                        </Drawer> */}
                     </div>
                 )}
             </div>

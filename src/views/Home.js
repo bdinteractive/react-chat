@@ -2,8 +2,9 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import superagent from "superagent";
 import Paper from "material-ui/Paper"
-import Typography from "material-ui/Typography"
-import Grid from "material-ui/Grid"
+
+// import Typography from "material-ui/Typography"
+// import Grid from "material-ui/Grid"
 
 export class Home extends React.Component {
     constructor() {
@@ -19,23 +20,18 @@ export class Home extends React.Component {
     render() {
         const isAlreadyAuthentacated = this.isAuthenticated();
         return(
-            <Grid container>
+            <div>
                 {!isAlreadyAuthentacated ? <Redirect to={{pathname: '/'}}/> : (
-                    <Grid
-                        item
-                        md
-                    >
-                        <Paper style={{padding: 60}}>
-                            <Typography variant="headline" component="h4">
-                                Welcome {this.state.username}
-                            </Typography>
-                            <Typography component="h2">
-                                This is Your Dashboard.
-                            </Typography>
-                        </Paper>
-                    </Grid>
+                    <Paper style={{padding: 60}}>
+                        <h4>
+                            Welcome {this.state.username}
+                        </h4>
+                        <h2>
+                            This is Your Dashboard.
+                        </h2>
+                    </Paper>
                 )}
-            </Grid>
+            </div>
         );
     }
 }
