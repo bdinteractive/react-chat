@@ -1,125 +1,72 @@
 import React from "react";
 import { Route, Link } from 'react-router-dom';
-// import Paper from "material-ui/Paper"
-// import Typography from "material-ui/Typography"
-// import Grid from "material-ui/Grid"
-// import Button from "material-ui/Button"
-// import Table, { TableHead, TableBody, TableRow, TableCell } from "material-ui/Table"
-// import { List, ListItem, ListItemIcon, ListItemText } from 'material-ui';
+import Paper from "material-ui/Paper"
+import RaisedButton from 'material-ui/RaisedButton';
+import {List, ListItem} from 'material-ui/List';
+import {
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn,
+  } from 'material-ui/Table';
 
 export class Talent extends React.Component {
     render() {
         return(
-            <h1>Talent</h1>
-            // <Grid container>
-            //     <Grid
-            //         item
-            //         md
-            //     >
-            //         <Paper style={{padding: 60}}>
-            //             <Typography variant="headline" component="h4">
-            //                 Talent
-            //             </Typography>
-            //             <Button
-            //                 color="primary"
-            //                 variant="raised"
-            //                 size="small"
-            //                 component={Link}
-            //                 to="/app/talent-add"
-            //                 style={{marginTop: 40, marginBottom: 20}}
-            //             >
-            //                 Add Talent
-            //             </Button>
-            //             <Table>
-            //                 <TableHead>
-            //                     <TableRow>
-            //                         <TableCell>Talent</TableCell>
-            //                         <TableCell>Subscribers</TableCell>
-            //                         <TableCell>Pending Orders</TableCell>
-            //                         <TableCell>Fullfield Orders</TableCell>
-            //                         <TableCell>Actions</TableCell>
-            //                     </TableRow>
-            //                 </TableHead>
-            //                 <TableBody>
-            //                     <TableRow>
-            //                         <TableCell>Jeffrey Dean Morgan</TableCell>
-            //                         <TableCell>500</TableCell>
-            //                         <TableCell>12</TableCell>
-            //                         <TableCell>56</TableCell>
-            //                         <TableCell>
-            //                             <List
-            //                                 component="nav"
-            //                                 style={{width: 300}}
-            //                             >
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="Edit Talent"/>
-            //                                 </ListItem>
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="Schedule One-On-One Chat With Session"/>
-            //                                 </ListItem>
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="View Talent Feed"/>
-            //                                 </ListItem>
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="Delete Talent"/>
-            //                                 </ListItem>
-            //                             </List>
-            //                         </TableCell>
-            //                     </TableRow>
-            //                     <TableRow>
-            //                         <TableCell>Norman Reedus</TableCell>
-            //                         <TableCell>200</TableCell>
-            //                         <TableCell>5</TableCell>
-            //                         <TableCell>23</TableCell>
-            //                         <TableCell>
-            //                             <List
-            //                                 component="nav"
-            //                                 style={{width: 300}}
-            //                             >
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="Edit Talent"/>
-            //                                 </ListItem>
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="Schedule One-On-One Chat With Session"/>
-            //                                 </ListItem>
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="View Talent Feed"/>
-            //                                 </ListItem>
-            //                                 <ListItem
-            //                                     button
-            //                                     dense
-            //                                 >
-            //                                     <ListItemText primary="Delete Talent"/>
-            //                                 </ListItem>
-            //                             </List>
-            //                         </TableCell>
-            //                     </TableRow>
-            //                 </TableBody>
-            //             </Table>
-            //         </Paper>
-            //     </Grid>
-            // </Grid>
+            <Paper style={{padding: 60, margin: 15}}>
+                <h1>Talent</h1>
+
+                <RaisedButton
+                    primary={true}
+                    label="Add Talent"
+                    style={{marginTop: 20, marginBottom: 20}}
+                    containerElement={<Link to="/app/talentAdd" />}
+                />
+
+                <Table>
+                    <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                        <TableRow>
+                            <TableHeaderColumn>Talent</TableHeaderColumn>
+                            <TableHeaderColumn>Subscribers</TableHeaderColumn>
+                            <TableHeaderColumn>Pending Orders</TableHeaderColumn>
+                            <TableHeaderColumn>Fullfield Orders</TableHeaderColumn>
+                            <TableHeaderColumn>Actions</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={false}>
+                        <TableRow>
+                            <TableRowColumn>Jeffrey Dean Morgan</TableRowColumn>
+                            <TableRowColumn>500</TableRowColumn>
+                            <TableRowColumn>12</TableRowColumn>
+                            <TableRowColumn>56</TableRowColumn>
+                            <TableRowColumn>
+                                <List>
+                                    <ListItem primaryText="Edit Talent" />
+                                    <ListItem primaryText="Schedule One-On-One Chat With Session" />
+                                    <ListItem primaryText="View Talent Feed" />
+                                    <ListItem primaryText="Delete Talent" />
+                                </List>
+                            </TableRowColumn>
+                        </TableRow>
+                        <TableRow>
+                            <TableRowColumn>Norman Reedus</TableRowColumn>
+                            <TableRowColumn>200</TableRowColumn>
+                            <TableRowColumn>5</TableRowColumn>
+                            <TableRowColumn>23</TableRowColumn>
+                            <TableRowColumn>
+                                <List>
+                                    <ListItem primaryText="Edit Talent" />
+                                    <ListItem primaryText="Schedule One-On-One Chat With Session" />
+                                    <ListItem primaryText="View Talent Feed" />
+                                    <ListItem primaryText="Delete Talent" />
+                                </List>
+                            </TableRowColumn>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </Paper>
         );
     }
 }

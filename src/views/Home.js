@@ -22,7 +22,7 @@ export class Home extends React.Component {
         return(
             <div>
                 {!isAlreadyAuthentacated ? <Redirect to={{pathname: '/'}}/> : (
-                    <Paper style={{padding: 60}}>
+                    <Paper style={{padding: 60, margin: 15}}>
                         <h4>
                             Welcome {this.state.username}
                         </h4>

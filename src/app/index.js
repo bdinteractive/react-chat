@@ -18,8 +18,8 @@ import { Login } from "../views/Login";
 import { Header } from "../components/Header";
 import { Home } from "../views/Home";
 import { Talent } from "../views/Talent";
-// import { TalentAdd } from "../components/Talent//TalentAdd";
-// import { TalentAdded } from "../components/Talent//TalentAdded";
+// import { TalentAdd } from "../components/Talent/TalentAdd";
+// import { TalentAdded } from "../components/Talent/TalentAdded";
 
 const muiTheme = getMuiTheme({
     palette: {
@@ -38,8 +38,8 @@ class App extends React.Component {
                         <Route path="/app" component={Header} />
                         <Route exact path="/app/dashboard" component={Home} />
                         <Route exact path="/app/talent" component={Talent} />
-                        {/* <Route exact path="/app/talent-add" component={TalentAdd} />
-                        <Route exact path="/app/talent-added" component={TalentAdded} /> */}
+                        {/* <Route exact path="/app/talent-add" component={TalentAdd} /> */}
+                        {/* <Route exact path="/app/talent-added" component={TalentAdded} /> */}
                     </div>
                 </Router>
             </MuiThemeProvider>
