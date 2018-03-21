@@ -2,6 +2,11 @@ import React from "react";
 import { Route, Link } from 'react-router-dom';
 import Paper from "material-ui/Paper"
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {List, ListItem} from 'material-ui/List';
 import {
     Table,
@@ -42,12 +47,16 @@ export class Talent extends React.Component {
                             <TableRowColumn>12</TableRowColumn>
                             <TableRowColumn>56</TableRowColumn>
                             <TableRowColumn>
-                                <List>
-                                    <ListItem primaryText="Edit Talent" />
-                                    <ListItem primaryText="Schedule One-On-One Chat With Session" />
-                                    <ListItem primaryText="View Talent Feed" />
-                                    <ListItem primaryText="Delete Talent" />
-                                </List>
+                                <IconMenu
+                                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+                                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                                >
+                                    <MenuItem primaryText="Edit Talent" />
+                                    <MenuItem primaryText="Schedule One-On-One Chat" />
+                                    <MenuItem primaryText="View Talent Feed" />
+                                    <MenuItem primaryText="Delete Talent" />
+                                </IconMenu>
                             </TableRowColumn>
                         </TableRow>
                         <TableRow>
@@ -56,12 +65,16 @@ export class Talent extends React.Component {
                             <TableRowColumn>5</TableRowColumn>
                             <TableRowColumn>23</TableRowColumn>
                             <TableRowColumn>
-                                <List>
-                                    <ListItem primaryText="Edit Talent" />
-                                    <ListItem primaryText="Schedule One-On-One Chat With Session" />
-                                    <ListItem primaryText="View Talent Feed" />
-                                    <ListItem primaryText="Delete Talent" />
-                                </List>
+                                <IconMenu
+                                        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                                        anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+                                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                                    >
+                                        <MenuItem primaryText="Edit Talent" />
+                                        <MenuItem primaryText="Schedule One-On-One Chat" />
+                                        <MenuItem primaryText="View Talent Feed" />
+                                        <MenuItem primaryText="Delete Talent" />
+                                    </IconMenu>
                             </TableRowColumn>
                         </TableRow>
                     </TableBody>

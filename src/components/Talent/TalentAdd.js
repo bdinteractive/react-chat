@@ -5,17 +5,11 @@ import Paper from "material-ui/Paper";
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from "material-ui/TextField"
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
-
-
-
-
-// import Grid from "material-ui/Grid";
-// import Button from "material-ui/Button";
-// import Paper from "material-ui/Paper";
-// import Typography from "material-ui/Typography"
-// import Radio, { RadioGroup } from 'material-ui/Radio';
-// import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
-// import Input, { InputLabel } from 'material-ui/Input';
+import LinearProgress from 'material-ui/LinearProgress';
+import PasswordField from 'material-ui-password-field';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 export class TalentAdd extends React.Component {
     constructor() {
@@ -28,12 +22,32 @@ export class TalentAdd extends React.Component {
             Gender: "m",
             KnownFor: "",
             Birthdate: "",
-            CategoryId: "021D71E9EE9E4C849111A438C1322DBD",
+            // CategoryId: "021D71E9EE9E4C849111A438C1322DBD",
+            CategoryId: "",
+            Categories: {},
             ErrorMessage: ""
         }
     }
+    componentDidMount() {
+        this.getCategories();
+    }
+    getCategories() {
+        superagent
+        .get('http://www.api.getchatwith.com/api/GetAppTalentCategories')
+        .set({'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJpbmciOiJkZWZhdWx0IiwiaWF0IjoxNTIwNzc0MzYxfQ.6evsCd9mU6aLvpS3Ljf1yTRmzz4EG2y25V7EbuA0dgo'})
+        .end((err, res) => {
+            if(res.body.Error) { 
+                console.log("Error!!!", res.body.Error);
+                this.setState({errorMessage: "Authentication Failed"});
+                return;
+            }
+            this.setState({Categories: res.body.Response});
+            // console.log(res.body.Response);
+            // console.log("State: ", this.state.Categories);
+        });
+    }
     submitForm(event) {
-        console.log('Submit Form');
+        // console.log('Submit Form');
         event.preventDefault();
         superagent
         .post('http://www.api.getchatwith.com/api/CreateAppTalent')
@@ -62,12 +76,21 @@ export class TalentAdd extends React.Component {
         });
     }
     handleChange(event) {
-        // console.log("Value", event.target.value);
-        // console.log("Name", event.target.name);
+        console.log(event);
+        console.log("Value", event.target.value);
+        console.log("Name", event.target.name);
         this.setState({
             [event.target.name]: event.target.value
         })
         console.log("State", this.state);
+    }
+    handleSelectChange(event, index, value) {
+        console.log(event);
+        console.log(index);
+        console.log(value);
+        this.setState({
+            CategoryId: value
+        });
     }
     render() {
         return(
@@ -89,6 +112,7 @@ export class TalentAdd extends React.Component {
                     <RaisedButton
                         label="Upload Photo"
                         style={{margin: '20px 0 20px'}}
+                        backgroundColor="#e0e0e0"
                     />
                     <TextValidator
                         floatingLabelText="Talent First Name"
@@ -120,7 +144,7 @@ export class TalentAdd extends React.Component {
                         fullWidth={true}
                     />
                     <br/>
-                    <TextValidator
+                    {/* <TextValidator
                         floatingLabelText="Talent Password"
                         onChange={this.handleChange.bind(this)}
                         name="Password"
@@ -130,7 +154,26 @@ export class TalentAdd extends React.Component {
                         errorMessages={['this field is required']}
                         fullWidth={true}
                     />
-                    <br/>
+                    <h5>Password Strength</h5>
+                    <LinearProgress mode="determinate" value={20} />
+                    <br/> */}
+                    <div>
+                        <div style={{width:'60%',float: 'left'}}>
+                            <PasswordField
+                                hintText="At least 8 characters"
+                                floatingLabelText="Talent Password"
+                                // errorText="Password is too short"
+                                fullWidth
+                                name="Password"
+                                onChange={this.handleChange.bind(this)}
+                                value={this.state.Password}
+                            />
+                        </div>
+                        <div style={{width:'30%',float: 'right'}}>
+                            <h5>Password Strength</h5>
+                            <LinearProgress mode="determinate" value={20} />
+                        </div>
+                    </div>
                     <TextValidator
                         floatingLabelText="Talent Birthdate"
                         onChange={this.handleChange.bind(this)}
@@ -141,6 +184,17 @@ export class TalentAdd extends React.Component {
                         fullWidth={true}
                     />
                     <br/>
+                    <br/>
+                    <RadioButtonGroup name="gender">
+                        <RadioButton
+                            value="male"
+                            label="Male"
+                        />
+                        <RadioButton
+                            value="female"
+                            label="Female"
+                        />
+                    </RadioButtonGroup>
                     <TextValidator
                         floatingLabelText="Talent Known For (Highlights 2 roles for talent)"
                         onChange={this.handleChange.bind(this)}
@@ -151,11 +205,141 @@ export class TalentAdd extends React.Component {
                         fullWidth={true}
                     />
                     <br/>
+                    <SelectField
+                        floatingLabelText="Talent Category"
+                        value={this.state.CategoryId}
+                        name="CategoryId"
+                        onChange={this.handleSelectChange.bind(this)}
+                        >
+                        {Object.keys(this.state.Categories).map(i => (
+                            <MenuItem key={i} value={this.state.Categories[i].CategoryId} primaryText={this.state.Categories[i].Description} />
+                        ))}
+                    </SelectField>
+                    <br/>
+                    <br/>
+                    <h3>Managers Information</h3>
+                    <TextValidator
+                        floatingLabelText="Managers First Name"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="Managers Last Name"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="Managers Email Address"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="Managers Phone Number"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <br/>
+                    <h3>For Checks</h3>
+                    <TextValidator
+                        floatingLabelText="Mailing Name"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="Address Line 1"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="Address Line 2"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="City"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="State"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="Zip"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <TextValidator
+                        floatingLabelText="Country"
+                        // onChange={this.handleChange.bind(this)}
+                        name="#"
+                        // value={this.state.ManagersLastName}
+                        // validators={['required']}
+                        // errorMessages={['this field is required']}
+                        fullWidth={true}
+                    />
+                    <br/>
                     <RaisedButton
                         type="submit"
                         label="Submit"
                         primary={true}
+                        style={{margin: '40px 15px 0 0'}}
+                    />
+                    <RaisedButton
+                        label="Cancel"
                         style={{marginTop: 40}}
+                        containerElement={<Link to="/app/talent" />}
                     />
                 </ValidatorForm>
 

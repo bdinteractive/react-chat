@@ -34,6 +34,7 @@
   "dependencies": {
     "material-ui": "^0.20.0",
     "material-ui-icons": "^1.0.0-beta.36",
+    "material-ui-password-field": "^1.4.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
