@@ -25,6 +25,7 @@ export class TalentAdd extends React.Component {
             // CategoryId: "021D71E9EE9E4C849111A438C1322DBD",
             CategoryId: "",
             Categories: {},
+            PasswordStrength: 0,
             ErrorMessage: ""
         }
     }
@@ -83,6 +84,10 @@ export class TalentAdd extends React.Component {
             [event.target.name]: event.target.value
         })
         console.log("State", this.state);
+        if(event.target.name == 'Password') {
+            // this.forceUpdate();
+            this.passwordStrengthMeter();
+        }
     }
     handleSelectChange(event, index, value) {
         console.log(event);
@@ -91,6 +96,22 @@ export class TalentAdd extends React.Component {
         this.setState({
             CategoryId: value
         });
+    }
+    passwordStrengthMeter() {
+        const pass_val = this.state.Password;
+        const strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+        const mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+        const okRegex = new RegExp("(?=.{6,}).*", "g");
+
+        if(okRegex.test(pass_val) === false){
+            this.setState({PasswordStrength: 20})
+        }else if(strongRegex.test(pass_val)){
+            this.setState({PasswordStrength: 100})
+        }else if(mediumRegex.test(pass_val)){
+            this.setState({PasswordStrength: 80})
+        }else{
+            this.setState({PasswordStrength: 80})
+        }
     }
     render() {
         return(
@@ -160,7 +181,7 @@ export class TalentAdd extends React.Component {
                     <div>
                         <div style={{width:'60%',float: 'left'}}>
                             <PasswordField
-                                hintText="At least 8 characters"
+                                hintText="At least 8 characters including a symbol, uppercase and lowercase"
                                 floatingLabelText="Talent Password"
                                 // errorText="Password is too short"
                                 fullWidth
@@ -171,7 +192,7 @@ export class TalentAdd extends React.Component {
                         </div>
                         <div style={{width:'30%',float: 'right'}}>
                             <h5>Password Strength</h5>
-                            <LinearProgress mode="determinate" value={20} />
+                            <LinearProgress mode="determinate" value={this.state.PasswordStrength} />
                         </div>
                     </div>
                     <TextValidator
