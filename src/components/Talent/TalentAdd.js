@@ -15,6 +15,10 @@ export class TalentAdd extends React.Component {
     constructor() {
         super();
         this.state = {
+            File: "",
+            ImagePreviewUrl: "",
+            UploadURL: "",
+            Preview: "hidden",
             EmailAddress: "",
             Password: "",
             FirstName: "",
@@ -73,8 +77,26 @@ export class TalentAdd extends React.Component {
                 return;
             }
             console.log('Res', res.body.Response);
+            
+            console.log('Reference Constant: ', res.body.Response.ReferenceConstant);
+            console.log('Image URL: ', res.body.Response.Url);
+
+            this.setState({UploadURL: res.body.Response.Url})
+
+            // this.sendImage();
+
             this.props.history.push('/app/talent-added');
         });
+    }
+    sendImage() {
+        superagent
+        .post(this.state.UploadURL)
+        .set('Content-Type', 'binary/octet-stream')
+        .send(this.state.File)
+        .end((err, res) => {
+            console.log('err ', err);
+            console.log('res ', res);
+        })
     }
     handleChange(event) {
         console.log(event);
@@ -113,6 +135,21 @@ export class TalentAdd extends React.Component {
             this.setState({PasswordStrength: 80})
         }
     }
+    handleImageChange(e) {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                File: file,
+                ImagePreviewUrl: reader.result
+            });
+        }
+        reader.readAsDataURL(file)
+        this.setState({Preview: "visible"})
+    }
     render() {
         return(
             <Paper style={{padding: '20px 60px 60px', margin: 15}}>
@@ -130,11 +167,20 @@ export class TalentAdd extends React.Component {
                     onError={errors => console.log(errors)}
                     style={{maxWidth: 800}}
                 >
-                    <RaisedButton
+                    {/* <RaisedButton
                         label="Upload Photo"
                         style={{margin: '20px 0 20px'}}
                         backgroundColor="#e0e0e0"
+                        type="file"
+                        onChange={(e)=>this.handleImageChange(e)}
+                    /> */}
+                    <input 
+                        type="file" 
+                        onChange={(e)=>this.handleImageChange(e)}
                     />
+                    <br/>
+                    <br/>
+                    <img src={this.state.ImagePreviewUrl} style={{visibility: this.state.Preview, borderRadius: '50%', width: 100, height: 100}} />
                     <TextValidator
                         floatingLabelText="Talent First Name"
                         onChange={this.handleChange.bind(this)}
