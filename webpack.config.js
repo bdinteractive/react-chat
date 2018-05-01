@@ -11,7 +11,8 @@ var config = {
         publicPath: "/app/"
     },
     devServer: {
-        port: 4000
+        port: 4000,
+        disableHostCheck: true
     },
     module: {
         loaders: [

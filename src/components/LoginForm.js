@@ -1,5 +1,5 @@
 import React from "react";
-import superagent from "superagent";
+import axios from "axios";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -23,45 +23,37 @@ export class LoginForm extends React.Component {
     }
     submitForm(event) {
         event.preventDefault();
-        superagent
-        .post('http://www.api.getchatwith.com/auth/AuthenticateAppAdmin')
-        .send({EmailAddress: this.state.username, Password: this.state.password})
-        .end((err, res) => {
-            // console.log('err ', err);
-            // console.log('res ', res);
-            // console.log('res.body.Error ', res.body.Error);
-
-            // console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
-            // console.log('res.body.Response.Authenticated ', res.body.Response.Authenticated);
-            this.setState({
-                errorMessage: "",
-                emailErrorMessage: "",
-                passwordErrorMessage: ""
-            })
-
-            if(!res.body.Response.ValidAppAdmin) {
-                // console.log('emailErrorMessage');
-                // console.log('res.body.Response.ValidAppAdmin ', res.body.Response.ValidAppAdmin);
-                this.setState({
-                    emailErrorMessage: "Wrong Email"
-                })
-                // console.log('emailErrorMessage');
+        let self = this;
+        this.setState({
+            errorMessage: "",
+            emailErrorMessage: "",
+            passwordErrorMessage: ""
+        })
+        axios({
+            method: 'post',
+            url: 'http://www.api.getchatwith.com/auth/AuthenticateAppAdmin',
+            data: {
+                EmailAddress: this.state.username,
+                Password: this.state.password
             }
-            if(!res.body.Response.ValidAppPassword) {
-                this.setState({
-                    passwordErrorMessage: "Wrong Password"
+        })
+        .then(function (response) {
+            if(response.data.Response.ValidAppAdmin && response.data.Response.Authenticated) {
+                localStorage.setItem('token', response.data.Response.Token);
+                self.props.onSuccessfulLogin();
+            } else if(!response.data.Response.ValidAppAdmin) {
+                self.setState({
+                    emailErrorMessage: "Invalid Email"
+                })
+            } else if(!response.data.Response.Authenticated) {
+                self.setState({
+                    passwordErrorMessage: "Incorrect Password"
                 })
             }
-            
-            if(res.body.Error) {
-                // console.log('Error!!! ', res.body.Error);
-                this.setState({errorMessage: res.body.Response});
-                return;
-            }
-            // console.log('Res', res.body.Response);
-            localStorage.setItem('token', res.body.Response.Token);
-            this.props.onSuccessfulLogin();
-        });
+        })
+        .catch(function (error) {
+            console.log("error: ", error);
+        })
     }
     handleChange = name => event => {
         this.setState({
