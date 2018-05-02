@@ -54,6 +54,7 @@ export class TalentAdd extends React.Component {
             "AppAdminId": "EA21E528CB93415CAFB7D8A1EAC58656",
             "Categories": {},
             "ProductTypes": [],
+            "Products": [],
             "ProductOptions": [],
             "PasswordStrength": 0,
             "ErrorMessage": "",
@@ -196,12 +197,30 @@ export class TalentAdd extends React.Component {
         console.log(response);
       }.bind(this))
     }
+    handleQuotaUpdate(event) {
+      console.log("Value: ", event.target.value);
+      console.log("Value: ", event.target.name);
+
+      this.setState({
+        ProductTypes: {
+          [event.target.name]: {
+            Quota: event.target.value
+          }
+        }
+      })
+
+      //this.state.ProductTypes[event.target.name].Quota = event.target.value;
+    }
     handleChange(event) {
       console.log('Handle Change');
       // console.log(event.target.name);
       if(event.target.name == 'Quota'){
         console.log('Quota');
         console.log(event.target.value);
+        // this.setState({
+
+        // })
+        this.state.ProductTypes[i].Quota
         //console.log(event.target.id);
         // this.setState({
         //   ProductOptions: this.state.ProductOptions.filter(function(id) {
@@ -284,8 +303,6 @@ export class TalentAdd extends React.Component {
 
       if(isInputChecked){
         Product.checked = true;
-        Product.Price = ""
-        Product.Quota = ""
         // this.setState({
         //   "ProductOptions": [...this.state.ProductOptions, {
         //     "ProductTypeId": this.state.ProductTypes[event.target.value].ProductTypeId,
@@ -454,15 +471,15 @@ export class TalentAdd extends React.Component {
                      <div>
                       <TextValidator
                         floatingLabelText="Quota"
-                        onChange={this.handleChange.bind(this)}
+                        onChange={this.handleQuotaUpdate.bind(this)}
                         value={this.state.ProductTypes[i].Quota}
                         validators={['required']}
                         errorMessages={['this field is required']}
-                        name="Quota"
+                        name={i}
                         //name={this.state.ProductTypes[i].quota}
                       />
                       <br/>
-                      <TextValidator
+                      {/* <TextValidator
                         floatingLabelText="Price"
                         onChange={this.handleChange.bind(this)}
                         value={this.state.ProductTypes[i].Price}
@@ -470,7 +487,7 @@ export class TalentAdd extends React.Component {
                         errorMessages={['this field is required']}
                         name="Price"
                         //name={this.state.ProductTypes[i].price}
-                      />
+                      /> */}
                     </div> : ''}
                   </div>
                 ))}
