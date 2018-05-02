@@ -24,6 +24,9 @@ const config = {
 }
 
 
+import Categories from './Categories';
+
+
 export class TalentAdd extends React.Component {
     constructor() {
         super();
@@ -63,22 +66,22 @@ export class TalentAdd extends React.Component {
         }
     }
     componentDidMount() {
-      this.getCategories();
+      // this.getCategories();
       this.getProductTypes();
     }
-    getCategories() {
-      const config = {
-        headers: {'Authorization': "bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJpbmciOiJkZWZhdWx0IiwiaWF0IjoxNTIwNzc0MzYxfQ.6evsCd9mU6aLvpS3Ljf1yTRmzz4EG2y25V7EbuA0dgo"}
-      }
-      axios({
-        method: 'get',
-        url: 'http://www.api.getchatwith.com/api/GetAppTalentCategories',
-        headers: config
-      })
-      .then(function(response) {
-        this.setState({Categories: response.data.Response});
-      }.bind(this))
-    }
+    // getCategories() {
+    //   const config = {
+    //     headers: {'Authorization': "bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJpbmciOiJkZWZhdWx0IiwiaWF0IjoxNTIwNzc0MzYxfQ.6evsCd9mU6aLvpS3Ljf1yTRmzz4EG2y25V7EbuA0dgo"}
+    //   }
+    //   axios({
+    //     method: 'get',
+    //     url: 'http://www.api.getchatwith.com/api/GetAppTalentCategories',
+    //     headers: config
+    //   })
+    //   .then(function(response) {
+    //     this.setState({Categories: response.data.Response});
+    //   }.bind(this))
+    // }
     getProductTypes() {
       const config = {
         headers: {'Authorization': "bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJpbmciOiJkZWZhdWx0IiwiaWF0IjoxNTIwNzc0MzYxfQ.6evsCd9mU6aLvpS3Ljf1yTRmzz4EG2y25V7EbuA0dgo"}
@@ -247,11 +250,11 @@ export class TalentAdd extends React.Component {
         this.passwordStrengthMeter();
       }
     }
-    handleCategoryId(event, index, value) {
-      this.setState({
-          CategoryId: value
-      });
-    }
+    // handleCategoryId(event, index, value) {
+    //   this.setState({
+    //       CategoryId: value
+    //   });
+    // }
     handleGender(event, value) {
       this.setState({
         Gender: value
@@ -447,7 +450,12 @@ export class TalentAdd extends React.Component {
                     fullWidth={true}
                 />
                 <br/>
-                <SelectField
+
+
+              <Categories />
+
+
+                {/* <SelectField
                     floatingLabelText="Talent Category"
                     value={this.state.CategoryId}
                     name="CategoryId"
@@ -456,7 +464,11 @@ export class TalentAdd extends React.Component {
                     {Object.keys(this.state.Categories).map(i => (
                         <MenuItem key={i} value={this.state.Categories[i].CategoryId} primaryText={this.state.Categories[i].Description} />
                     ))}
-                </SelectField>
+                </SelectField> */}
+
+
+
+
                 <br/>
                 <br/>
                 <h4>Products</h4>
