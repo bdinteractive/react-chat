@@ -8,6 +8,7 @@ import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {List, ListItem} from 'material-ui/List';
+import SearchBar from 'material-ui-search-bar'
 import {
     Table,
     TableBody,
@@ -22,14 +23,21 @@ export class Talent extends React.Component {
         return(
             <Paper style={{padding: '20px 60px 60px', margin: 15}}>
                 <h1>Talent</h1>
-
+                <SearchBar
+                    onChange={() => console.log('onChange')}
+                    onRequestSearch={() => console.log('onRequestSearch')}
+                    hintText="Search Talent"
+                    style={{
+                        margin: '0 auto',
+                        maxWidth: 800
+                    }}
+                />
                 <RaisedButton
                     primary={true}
                     label="Add Talent"
                     style={{marginTop: 20, marginBottom: 20}}
                     containerElement={<Link to="/app/talent-add" />}
                 />
-
                 <Table>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                         <TableRow>

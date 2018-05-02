@@ -17,8 +17,9 @@ import { Login } from "../views/Login";
 import { Header } from "../components/Header";
 import { Home } from "../views/Home";
 import { Talent } from "../views/Talent";
-import { TalentAdd } from "../components/Talent/TalentAdd";
+import { AddTalent } from "../components/Talent/AddTalent";
 import { TalentAdded } from "../components/Talent/TalentAdded";
+import { Orders } from "../views/Orders";
 
 const muiTheme = getMuiTheme({
     palette: {
@@ -37,8 +38,9 @@ class App extends Component {
               <Route path="/app" component={Header} />
               <Route exact path="/app/dashboard" component={Home} />
               <Route exact path="/app/talent" component={Talent} />
-              <Route exact path="/app/talent-add" component={TalentAdd} />
+              <Route exact path="/app/talent-add" component={AddTalent} />
               <Route exact path="/app/talent-added" component={TalentAdded} />
+              <Route exact path="/app/orders" component={Orders} />
             </div>
           </Router>
         </MuiThemeProvider>

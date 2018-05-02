@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import axios from "axios";
 
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
@@ -51,6 +52,10 @@ class Categories extends Component {
       </div>
     )
   }
+}
+
+Categories.propTypes = {
+  title: PropTypes.string
 }
 
 export default Categories;

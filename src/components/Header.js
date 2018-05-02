@@ -73,7 +73,12 @@ export class Header extends React.Component {
                             open={this.state.open}
                             onRequestChange={(open) => this.setState({open})}
                         >
-                            <MenuItem onClick={this.handleClose}>Orders</MenuItem>
+                            <MenuItem
+                                onClick={this.handleClose}
+                                containerElement={<Link to="/app/orders" />}
+                            >
+                                Orders
+                            </MenuItem>
                             <MenuItem onClick={this.handleClose}>Payouts</MenuItem>
                             <MenuItem onClick={this.handleClose}>Reported Content</MenuItem>
                             <MenuItem onClick={this.handleClose}>Fan (Users)</MenuItem>
