@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link, Redirect } from 'react-router-dom';
 import axios from "axios";
 import Paper from "material-ui/Paper";
@@ -13,7 +13,7 @@ import ProductTypes from './ProductTypes';
 import ManagerInfo from './ManagerInfo';
 import ForChecks from './ForChecks';
 
-export class AddTalent extends React.Component {
+class EditTalent extends Component {
   constructor() {
     super();
     this.state = {
@@ -150,7 +150,7 @@ export class AddTalent extends React.Component {
           // onRequestClose={this.handleRequestClose}
         />
         <Paper style={{padding: '20px 60px 60px', margin: 15}}>
-          <h1>Add Talent</h1>
+          <h1>Edit Talent</h1>
           {this.state.errorMessage &&
             <h3>
               <strong>Error:</strong> {this.state.errorMessage}
@@ -198,3 +198,5 @@ export class AddTalent extends React.Component {
     );
   }
 }
+
+export default EditTalent;

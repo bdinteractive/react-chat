@@ -1,0 +1,1 @@
+export const FETCH_TALENT_LIST = 'FETCH_TALENT_LIST';
