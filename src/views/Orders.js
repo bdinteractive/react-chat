@@ -22,43 +22,46 @@ import Divider from 'material-ui/Divider';
 import SearchBar from 'material-ui-search-bar'
 import Pagination from 'material-ui-pagination';
 
+import OrderList from '../Components/Orders/OrderList';
+import OrderList45 from '../Components/Orders/OrderList45';
+import OrderList60 from '../Components/Orders/OrderList60';
+
 export class Orders extends React.Component {
-  state = {
-    open: false,
-  };
-
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
+  constructor() {
+    super();
+    this.state = {
+      all: true,
+      fourFive: false,
+      sixZero: false
+    }
+  }
+  handleDisplayAll() {
+    console.log("ALL");
+    this.setState({
+      all: true,
+      fourFive: false,
+      sixZero: false
+    })
+  }
+  handleDisplayFourFive() {
+    console.log("45");
+    this.setState({
+      all: false,
+      fourFive: true,
+      sixZero: false
+    })
+  }
+  handleDisplaySixZero() {
+    console.log("60");
+    this.setState({
+      all: false,
+      fourFive: false,
+      sixZero: true
+    })
+  }
   render() {
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label="Confirm Delete"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleClose}
-      />,
-    ];
     return(
       <Paper style={{padding: '20px 60px 60px', margin: 15}}>
-        <Dialog
-          title="Delete Order"
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
-          This action will delete the order.
-        </Dialog>
         <h1>Orders</h1>
         <SearchBar
           onChange={() => console.log('onChange')}
@@ -69,180 +72,36 @@ export class Orders extends React.Component {
             maxWidth: 800
           }}
         />
-        <h4>All Orders</h4>
-        <Table>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow>
-              <TableHeaderColumn>Order Number</TableHeaderColumn>
-              <TableHeaderColumn>
-                Date
-              </TableHeaderColumn>
-              <TableHeaderColumn>Status</TableHeaderColumn>
-              <TableHeaderColumn>Fan</TableHeaderColumn>
-              <TableHeaderColumn>Talent</TableHeaderColumn>
-              <TableHeaderColumn>Actions</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            <TableRow>
-              <TableRowColumn>00041</TableRowColumn>
-              <TableRowColumn>08/23/2017</TableRowColumn>
-              <TableRowColumn>Pending</TableRowColumn>
-              <TableRowColumn>Username01</TableRowColumn>
-              <TableRowColumn>Jeffrey Dean Morgan</TableRowColumn>
-              <TableRowColumn>
-                  <IconMenu
-                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                  >
-                    <MenuItem onClick={this.handleOpen} primaryText="Edit Order" />
-                    <MenuItem onClick={this.handleOpen} primaryText="Delete Order" />
-                  </IconMenu>
-              </TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>00030</TableRowColumn>
-              <TableRowColumn>08/22/2017</TableRowColumn>
-              <TableRowColumn>Fulfilled</TableRowColumn>
-              <TableRowColumn>Username02</TableRowColumn>
-              <TableRowColumn>Andrew Lincoln</TableRowColumn>
-              <TableRowColumn>
-                  <IconMenu
-                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                  >
-                    <MenuItem onClick={this.handleOpen} primaryText="Edit Order" />
-                    <MenuItem onClick={this.handleOpen} primaryText="Delete Order" />
-                  </IconMenu>
-              </TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>
-        <br />
-        <Pagination
-          total={20}
-          current={1}
-          display={7}
-        />
-        <br />
+        <br/><br/>
         <Divider />
-        <br />
-        <h4>Orders Past 45 Days (Not Fulfilled)</h4>
-        <Table>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow>
-              <TableHeaderColumn>Order Number</TableHeaderColumn>
-              <TableHeaderColumn>Date</TableHeaderColumn>
-              <TableHeaderColumn>Fan</TableHeaderColumn>
-              <TableHeaderColumn>Talent</TableHeaderColumn>
-              <TableHeaderColumn>Products</TableHeaderColumn>
-              <TableHeaderColumn>Actions</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            <TableRow>
-              <TableRowColumn>000013</TableRowColumn>
-              <TableRowColumn>08/15/2017</TableRowColumn>
-              <TableRowColumn>Username05</TableRowColumn>
-              <TableRowColumn>Norman Reedus</TableRowColumn>
-              <TableRowColumn>Autograph Photo (Pending)</TableRowColumn>
-              <TableRowColumn>
-                  <IconMenu
-                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                  >
-                    <MenuItem onClick={this.handleOpen} primaryText="Edit Order" />
-                    <MenuItem onClick={this.handleOpen} primaryText="Delete Order" />
-                  </IconMenu>
-              </TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>000025</TableRowColumn>
-              <TableRowColumn>08/15/2017</TableRowColumn>
-              <TableRowColumn>Username05</TableRowColumn>
-              <TableRowColumn>Andrew Lincoln</TableRowColumn>
-              <TableRowColumn>Autograph Photo (Pending)</TableRowColumn>
-              <TableRowColumn>
-                  <IconMenu
-                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                  >
-                    <MenuItem primaryText="Edit Order" />
-                    <MenuItem primaryText="Delete Order" />
-                  </IconMenu>
-              </TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>
-        <br />
-        <Pagination
-          total={20}
-          current={1}
-          display={7}
+        <br/>
+        <RaisedButton
+          primary={true}
+          label="All Orders"
+          style={{marginTop: 20, marginBottom: 20, marginRight: 10}}
+          onClick={this.handleDisplayAll.bind(this)}
         />
-        <br />
-        <Divider />
-        <br />
-        <h4>Orders Past 60 Days (Not Fulfilled)</h4>
-        <Table>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow>
-              <TableHeaderColumn>Order Number</TableHeaderColumn>
-              <TableHeaderColumn>Date</TableHeaderColumn>
-              <TableHeaderColumn>Fan</TableHeaderColumn>
-              <TableHeaderColumn>Talent</TableHeaderColumn>
-              <TableHeaderColumn>Products</TableHeaderColumn>
-              <TableHeaderColumn>Action (Cancel All Orders)</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            <TableRow>
-              <TableRowColumn>00001</TableRowColumn>
-              <TableRowColumn>08/15/2017</TableRowColumn>
-              <TableRowColumn>Username03</TableRowColumn>
-              <TableRowColumn>Josh McDermitt</TableRowColumn>
-              <TableRowColumn>Autograph Photo (Pending)</TableRowColumn>
-              <TableRowColumn>
-                  <IconMenu
-                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                  >
-                    <MenuItem primaryText="Edit Order" />
-                    <MenuItem primaryText="Delete Order" />
-                  </IconMenu>
-              </TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn>00005</TableRowColumn>
-              <TableRowColumn>08/15/2017</TableRowColumn>
-              <TableRowColumn>Username04</TableRowColumn>
-              <TableRowColumn>Andrew Lincoln</TableRowColumn>
-              <TableRowColumn>Autograph Photo (Pending)</TableRowColumn>
-              <TableRowColumn>
-                  <IconMenu
-                    iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                    targetOrigin={{horizontal: 'left', vertical: 'top'}}
-                  >
-                    <MenuItem primaryText="Edit Order" />
-                    <MenuItem primaryText="Delete Order" />
-                  </IconMenu>
-              </TableRowColumn>
-            </TableRow>
-          </TableBody>
-        </Table>
-        <br />
-        <Pagination
-          total={20}
-          current={1}
-          display={7}
+        <RaisedButton
+          primary={true}
+          label="Orders Past 45 Days (Not Fulfilled)"
+          style={{marginTop: 20, marginBottom: 20, marginRight: 10}}
+          onClick={this.handleDisplayFourFive.bind(this)}
         />
-        
+        <RaisedButton
+          primary={true}
+          label="Orders Past 60 Days (Not Fulfilled)"
+          style={{marginTop: 20, marginBottom: 20}}
+          onClick={this.handleDisplaySixZero.bind(this)}
+        />
+        {this.state.all &&
+          <OrderList />
+        }
+        {this.state.fourFive &&
+          <OrderList45 />
+        }
+        {this.state.sixZero &&
+          <OrderList60 />
+        }
       </Paper>
     );
   }
