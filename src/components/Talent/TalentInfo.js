@@ -8,8 +8,8 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import TalentPassword from './TalentPassword';
 
 class TalentInfo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       "EmailAddress": "",
       "FirstName": "",
@@ -18,6 +18,9 @@ class TalentInfo extends Component {
       "KnownFor": "",
       "Birthdate": "",
     }
+  }
+  componentWillMount() {
+
   }
   handleChange(event) {
     this.setState({

@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import talentListReducer from './talentListReducer';
+import talentReducer from './talentReducer';
 
 export default combineReducers({
-  talentList: talentListReducer
+  talentLanding: talentReducer,
+  talentSearch: talentReducer,
+  talentFeed: talentReducer
 });

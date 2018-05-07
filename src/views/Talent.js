@@ -7,6 +7,7 @@ import Paper from "material-ui/Paper"
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
+import DropDownMenu from 'material-ui/DropDownMenu';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -22,21 +23,75 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-import { fetchTalentList } from '../actions/talentActions';
+import { fetchTalentLanding, fetchTalentSearch } from '../actions/talentActions';
 
 class Talent extends Component {
-  constructor() {
-    super();
-    // this.handlePagination.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      "searchTerm": "",
+      "searchType": "FirstName",
+      "landing": true,
+      "search": false,
+      "feed": false
+    }
   }
   componentWillMount() {
-    this.props.fetchTalentList();
+    this.props.fetchTalentLanding();
   }
   handlePagination(number) {
     console.log(number);
   }
+  handleSearch() {
+    const search = {
+      searchTerm: this.state.searchTerm,
+      searchType: this.state.searchType
+    }
+    this.props.fetchTalentSearch(search);
+    this.setState({
+      "landing": false,
+      "search": true
+    })
+  }
+  clearSearch() {
+    this.setState({
+      "landing": true,
+      "search": false
+    })
+  }
+  handleTalentFeed(event, child) {
+    console.log("child: ", child.props.value);
+  }
   render() {
-    const talentItems = this.props.talentList.map(item => (
+    const talent = this.props.talentLanding.map(item => (
+      <TableRow key={item.TalentId}>
+        <TableRowColumn>{item.FirstName} {item.LastName}</TableRowColumn>
+        <TableRowColumn>{item.Subscribers}</TableRowColumn>
+        <TableRowColumn>{item.PendingOrders}</TableRowColumn>
+        <TableRowColumn>{item.FulfilledOrders}</TableRowColumn>
+        <TableRowColumn>
+          <IconMenu
+            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+            anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onItemClick={this.handleTalentFeed.bind(this)}
+          >
+            <MenuItem
+              primaryText="Edit Talent"
+              containerElement={<Link to="/app/talent-edit" />}
+            />
+            <MenuItem primaryText="Schedule One-On-One Chat" />
+            <MenuItem 
+              value={item.TalentId}
+              primaryText="View Talent Feed"
+              containerElement={<Link to={{pathname: "/app/talent-feed", query: {talentId: item.TalentId}}} />}
+            />
+            <MenuItem primaryText="Delete Talent" />
+          </IconMenu>
+        </TableRowColumn>
+      </TableRow>
+    ));
+    const search = this.props.talentSearch.map(item => (
       <TableRow key={item.TalentId}>
         <TableRowColumn>{item.FirstName} {item.LastName}</TableRowColumn>
         <TableRowColumn>{item.Subscribers}</TableRowColumn>
@@ -63,17 +118,31 @@ class Talent extends Component {
       <Paper style={{padding: '20px 60px 60px', margin: 15}}>
         <h1>Talent</h1>
         <SearchBar
-          onChange={() => console.log('onChange')}
-          onRequestSearch={() => console.log('onRequestSearch')}
+          onChange={(value) => this.setState({searchTerm: value})}
+          onRequestSearch={this.handleSearch.bind(this)}
           hintText="Search Talent"
           style={{
             margin: '0 auto',
             maxWidth: 800
           }}
         />
+        <br/>
+        {/* <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+          <MenuItem value={1} primaryText="Never" />
+          <MenuItem value={2} primaryText="Every Night" />
+          <MenuItem value={3} primaryText="Weeknights" />
+          <MenuItem value={4} primaryText="Weekends" />
+          <MenuItem value={5} primaryText="Weekly" />
+        </DropDownMenu> */}
         <br/><br/>
         <Divider />
         <br/>
+        <RaisedButton
+          primary={true}
+          label="View All"
+          style={{marginTop: 20, marginBottom: 20, marginRight: 10}}
+          onClick={this.clearSearch.bind(this)}
+        />
         <RaisedButton
           primary={true}
           label="Add Talent"
@@ -91,7 +160,9 @@ class Talent extends Component {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
-            {talentItems}
+            {this.state.landing && talent }
+            {this.state.search && search }
+            {this.state.feed && feed }
           </TableBody>
         </Table>
         <br />
@@ -107,7 +178,8 @@ class Talent extends Component {
 }
 
 const mapStateToProps = state => ({
-  talentList: state.talentList.items
+  talentLanding: state.talentLanding.items,
+  talentSearch: state.talentSearch.search
 });
 
-export default connect(mapStateToProps, { fetchTalentList })(Talent);
+export default connect(mapStateToProps, { fetchTalentLanding, fetchTalentSearch })(Talent);

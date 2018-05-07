@@ -19,6 +19,7 @@ import { Home } from "../views/Home";
 import Talent from "../views/Talent";
 import { AddTalent } from "../components/Talent/AddTalent";
 import { TalentAdded } from "../components/Talent/TalentAdded";
+import TalentFeed from "../components/Talent/TalentFeed";
 import EditTalent from "../components/Talent/EditTalent";
 import { Orders } from "../views/Orders";
 
@@ -41,6 +42,7 @@ class App extends Component {
               <Route exact path="/app/talent" component={Talent} />
               <Route exact path="/app/talent-add" component={AddTalent} />
               <Route exact path="/app/talent-edit" component={EditTalent} />
+              <Route exact path="/app/talent-feed" component={TalentFeed} />
               <Route exact path="/app/talent-added" component={TalentAdded} />
               <Route exact path="/app/orders" component={Orders} />
             </div>
