@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 
 import Paper from "material-ui/Paper";
 import Pagination from 'material-ui-pagination';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import KeyboardReturn from 'material-ui/svg-icons/hardware/keyboard-return';
 import {
   Table,
   TableBody,
@@ -53,14 +56,22 @@ class TalentFeed extends Component {
         <TableRowColumn>{item.TotalComments}</TableRowColumn>
       </TableRow>
     ));
-    // const feed = (
-    //   <h1>Hello World</h1>
-    // )
+    const talentName = (
+      <h4>Talent: {this.props.talentFeed.TalentFirstName} {this.props.talentFeed.TalentLastName} </h4>
+    )
     return(
       <div>
         <Paper style={{padding: '20px 60px 60px', margin: 15}}>
           <h1>Talent Feed</h1>
-          <h4>Talent ID: {this.state.title} </h4>
+          <FlatButton
+            primary={true}
+            label="Return to Talent"
+            style={{marginTop: 20, marginBottom: 20}}
+            containerElement={<Link to="/app/talent" />}
+            icon={<KeyboardReturn />}
+            labelPosition="after"
+          />
+          {talentName}
           <Table>
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
               <TableRow>
@@ -77,12 +88,12 @@ class TalentFeed extends Component {
             </TableBody>
           </Table>
           <br />
-          <Pagination
+          {/* <Pagination
             total={20}
             current={1}
             display={2}
             onChange={number => this.handlePagination({number})}
-          />
+          /> */}
         </Paper>
       </div>
     );

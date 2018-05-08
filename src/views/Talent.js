@@ -9,6 +9,16 @@ import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import IconMenu from 'material-ui/IconMenu';
+import CircularProgress from 'material-ui/CircularProgress';
+
+import FontIcon from 'material-ui/FontIcon';
+import Create from 'material-ui/svg-icons/content/create';
+import AddToQueue from 'material-ui/svg-icons/av/add-to-queue';
+import CastConnected from 'material-ui/svg-icons/hardware/cast-connected';
+import Delete from 'material-ui/svg-icons/action/delete';
+import Clear from 'material-ui/svg-icons/content/clear';
+import PersonAdd from 'material-ui/svg-icons/social/person-add';
+
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import {List, ListItem} from 'material-ui/List';
@@ -79,14 +89,22 @@ class Talent extends Component {
             <MenuItem
               primaryText="Edit Talent"
               containerElement={<Link to="/app/talent-edit" />}
+              leftIcon={<Create />}
             />
-            <MenuItem primaryText="Schedule One-On-One Chat" />
+            <MenuItem 
+              primaryText="Schedule One-On-One Chat" 
+              leftIcon={<AddToQueue />}
+            />
             <MenuItem 
               value={item.TalentId}
               primaryText="View Talent Feed"
               containerElement={<Link to={{pathname: "/app/talent-feed", query: {talentId: item.TalentId}}} />}
+              leftIcon={<CastConnected />}
             />
-            <MenuItem primaryText="Delete Talent" />
+            <MenuItem 
+              primaryText="Delete Talent" 
+              leftIcon={<Delete />}
+            />
           </IconMenu>
         </TableRowColumn>
       </TableRow>
@@ -106,10 +124,22 @@ class Talent extends Component {
             <MenuItem
               primaryText="Edit Talent"
               containerElement={<Link to="/app/talent-edit" />}
+              leftIcon={<Create />}
             />
-            <MenuItem primaryText="Schedule One-On-One Chat" />
-            <MenuItem primaryText="View Talent Feed" />
-            <MenuItem primaryText="Delete Talent" />
+            <MenuItem
+              primaryText="Schedule One-On-One Chat"
+              leftIcon={<AddToQueue />}
+            />
+            <MenuItem 
+              value={item.TalentId}
+              primaryText="View Talent Feed"
+              containerElement={<Link to={{pathname: "/app/talent-feed", query: {talentId: item.TalentId}}} />}
+              leftIcon={<CastConnected />}
+            />
+            <MenuItem
+              primaryText="Delete Talent"
+              leftIcon={<Delete />}
+            />
           </IconMenu>
         </TableRowColumn>
       </TableRow>
@@ -137,17 +167,21 @@ class Talent extends Component {
         <br/><br/>
         <Divider />
         <br/>
-        <RaisedButton
-          primary={true}
-          label="View All"
-          style={{marginTop: 20, marginBottom: 20, marginRight: 10}}
-          onClick={this.clearSearch.bind(this)}
-        />
+        {this.state.search &&
+          <FlatButton
+            primary={true}
+            label="Clear Search"
+            style={{marginTop: 20, marginBottom: 20, marginRight: 10}}
+            onClick={this.clearSearch.bind(this)}
+            icon={<Clear/>}
+          />
+        }
         <RaisedButton
           primary={true}
           label="Add Talent"
           style={{marginTop: 20, marginBottom: 20}}
           containerElement={<Link to="/app/talent-add" />}
+          icon={<PersonAdd />}
         />
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -160,18 +194,19 @@ class Talent extends Component {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
+            {/* <CircularProgress /> */}
             {this.state.landing && talent }
             {this.state.search && search }
             {this.state.feed && feed }
           </TableBody>
         </Table>
         <br />
-        <Pagination
+        {/* <Pagination
           total={20}
           current={1}
           display={10}
           onChange={number => this.handlePagination({number})}
-        />
+        /> */}
       </Paper>
     );
   }
