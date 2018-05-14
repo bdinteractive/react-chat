@@ -1,7 +1,8 @@
 import { 
   FETCH_TALENT_LANDING,
   FETCH_TALENT_SEARCH,
-  FETCH_TALENT_FEED
+  FETCH_TALENT_FEED,
+  FETCH_TALENT_ATTRIBUTES
 } from './types';
 import axios from 'axios';
 
@@ -24,7 +25,7 @@ export const fetchTalentLanding = () => dispatch => {
 }
 
 export const fetchTalentSearch = search => dispatch => {
-  console.log("search: ", search);
+  // console.log("search: ", search);
   axios({
     method: 'POST',
     url: 'http://www.api.getchatwith.com/api/super/GetAppTalentBySearch',
@@ -44,7 +45,7 @@ export const fetchTalentSearch = search => dispatch => {
 }
 
 export const fetchTalentFeed = talentId => dispatch => {
-  console.log("talentId: ", talentId);
+  // console.log("talentId: ", talentId);
   axios({
     method: 'POST',
     url: 'http://www.api.getchatwith.com/api/super/GetFeedMediaByTalentAdmin',
@@ -58,5 +59,23 @@ export const fetchTalentFeed = talentId => dispatch => {
   .then(talentFeed => dispatch({
     type: FETCH_TALENT_FEED,
     payload: talentFeed.data.Response
+  }))
+}
+
+export const fetchTalentAttributes = talentId => dispatch => {
+  console.log("Attributes");
+  axios({
+    method: 'POST',
+    url: 'http://www.api.getchatwith.com/api/super/GetAppTalentAttributesByTalent',
+    headers: {
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdHJpbmciOiJkZWZhdWx0IiwiaWF0IjoxNTI1MzU3NjE5fQ.JJ4X_JomgsVVzv6PPz_8DUbuBC8nXY5F5W7v5ceaFsc"
+    },
+    data: {
+      "TalentId":"8F94015F72CF48BC9017FB1E1BC4B0E2"
+    }
+  })
+  .then(talentAttributes => dispatch({
+    type: FETCH_TALENT_ATTRIBUTES,
+    payload: talentAttributes.data
   }))
 }

@@ -20,7 +20,13 @@ class TalentInfo extends Component {
     }
   }
   componentWillMount() {
-
+    
+  }
+  componentWillReceiveProps() {
+    console.log("Talent Info:", this.props.talentInfo);
+    this.setState({
+      "FirstName": this.props.talentInfo
+    })
   }
   handleChange(event) {
     this.setState({
